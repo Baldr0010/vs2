@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grades Management System</title>
+  <style>
+    /* Add your styles here */
+  </style>
+</head>
+<body>
+
+  <div id="uploadTab" class="tab">
+    <input type="file" accept=".csv, .txt, .xlsx" id="fileInput">
+    <button onclick="loadFile()">Загрузить файл</button>
+    <table id="uploadTable">
+      <!-- Display uploaded values here -->
+    </table>
+  </div>
+
+  <script>
+    function openTab(tabName) {
+      // Implement tab switching logic here
+    }
+
+    function loadFile() {
+      const fileInput = document.getElementById('fileInput');
+      const uploadTable = document.getElementById('uploadTable');
+
+      // Clear previous data
+      uploadTable.innerHTML = '';
+
+      // Check if a file is selected
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        
+        // Check the file type
+        if (file.name.endsWith('.csv')) {
+          // Read the file content
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const content = e.target.result;
+
+            // Parse content and populate the table
+            const rows = content.split('\n');
+            for (const row of rows) {
+              const columns = row.split(',');
+              const newRow = uploadTable.insertRow();
+              for (const col of columns) {
+                const cell = newRow.insertCell();
+                cell.textContent = col;
+              }
+            }
+          };
+
+          // Read the file as text
+          reader.readAsText(file);
+        } else {
+          alert('Выберите файл с расширением .csv.');
+        }
+      }
+    }
+  </script>
+
+
+</body>
+</html>
